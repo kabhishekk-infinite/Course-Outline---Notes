@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34931.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParseAndTryParse", "ParseAndTryParse\ParseAndTryParse.csproj", "{936718DA-A22A-4B0C-82BF-236529B51BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrIntConversition", "..\..\..\..\3. All Topics\2. Conversion\StrIntConversition\StrIntConversition.csproj", "{B96E092B-5D8C-43A6-86BC-1A99E69E57C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{936718DA-A22A-4B0C-82BF-236529B51BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{936718DA-A22A-4B0C-82BF-236529B51BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{936718DA-A22A-4B0C-82BF-236529B51BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{936718DA-A22A-4B0C-82BF-236529B51BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B96E092B-5D8C-43A6-86BC-1A99E69E57C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B96E092B-5D8C-43A6-86BC-1A99E69E57C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B96E092B-5D8C-43A6-86BC-1A99E69E57C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B96E092B-5D8C-43A6-86BC-1A99E69E57C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D584F810-B1B1-43B7-9CA4-E35F0A4F4A5B}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,21 @@
+Pseudocode and flowcharts are tools used in software development and system design to outline algorithms and processes in a clear and structured manner before actual coding begins. Here's an overview of each:
+
+Pseudocode
+Definition:
+
+Pseudocode is a high-level description of a computer programming algorithm that uses a mixture of natural language and programming language-like constructs.
+It is not tied to specific syntax rules of any programming language but focuses on the logic and steps needed to solve a problem.
+
+Flowchart
+Definition:
+
+A flowchart is a graphical representation of a process or algorithm, using standardized symbols to depict different steps or activities involved in the process.
+It provides a visual representation of the flow of control or data through a system or program.
+Symbols Used:
+
+Start/End: Represents the beginning or end of a process.
+Process: Represents a task or action performed.
+Decision: Represents a decision point with branching based on a condition.
+Input/Output: Represents data input or output operations.
+Connector: Connects different parts of the flowchart.
+

@@ -1,0 +1,199 @@
+In C#, arrays are used to store multiple elements of the same type in a single variable. Arrays are zero-based, meaning the index of the first element is 0. They can be single-dimensional, multi-dimensional, or jagged (arrays of arrays).
+
+### 1. Single-Dimensional Arrays
+
+A single-dimensional array is the simplest form of an array in C#. It is a list of elements stored in a contiguous memory location.
+
+#### Declaration and Initialization
+
+```csharp
+// Declaration
+int[] numbers;
+
+// Initialization
+numbers = new int[5]; // Array of 5 integers
+
+// Declaration and initialization
+int[] scores = new int[5] { 90, 85, 80, 75, 70 };
+
+// Another way of declaration and initialization
+int[] ages = { 25, 30, 35, 40, 45 };
+```
+
+#### Accessing Elements
+
+```csharp
+int firstScore = scores[0]; // Access first element
+scores[2] = 88; // Modify third element
+```
+
+#### Iterating Through an Array
+
+```csharp
+for (int i = 0; i < scores.Length; i++)
+{
+    Console.WriteLine(scores[i]);
+}
+
+// Using foreach loop
+foreach (int score in scores)
+{
+    Console.WriteLine(score);
+}
+```
+
+### 2. Multi-Dimensional Arrays
+
+Multi-dimensional arrays store data in a tabular format. The most common form is the two-dimensional array, often used to represent a matrix.
+
+#### Declaration and Initialization
+
+```csharp
+// Declaration
+int[,] matrix;
+
+// Initialization
+matrix = new int[3, 3]; // 3x3 matrix
+
+// Declaration and initialization
+int[,] grid = new int[2, 3] { { 1, 2, 3 }, { 4, 5, 6 } };
+
+// Another way of declaration and initialization
+int[,] table = { { 1, 2 }, { 3, 4 }, { 5, 6 } };
+```
+
+#### Accessing Elements
+
+```csharp
+int element = grid[0, 1]; // Access element at first row, second column
+grid[1, 2] = 9; // Modify element at second row, third column
+```
+
+#### Iterating Through a Multi-Dimensional Array
+
+```csharp
+for (int i = 0; i < grid.GetLength(0); i++)
+{
+    for (int j = 0; j < grid.GetLength(1); j++)
+    {
+        Console.WriteLine(grid[i, j]);
+    }
+}
+```
+
+### 3. Jagged Arrays
+
+Jagged arrays are arrays of arrays, meaning each element is itself an array. They can have different sizes, offering greater flexibility.
+
+#### Declaration and Initialization
+
+```csharp
+// Declaration
+int[][] jaggedArray;
+
+// Initialization
+jaggedArray = new int[3][]; // Array of 3 arrays
+
+// Initializing each array separately
+jaggedArray[0] = new int[2] { 1, 2 };
+jaggedArray[1] = new int[3] { 3, 4, 5 };
+jaggedArray[2] = new int[1] { 6 };
+
+// Declaration and initialization
+int[][] jagged = new int[][]
+{
+    new int[] { 1, 2 },
+    new int[] { 3, 4, 5 },
+    new int[] { 6 }
+};
+```
+
+#### Accessing Elements
+
+```csharp
+int element = jagged[1][2]; // Access element at second array, third position
+jagged[0][1] = 10; // Modify element at first array, second position
+```
+
+#### Iterating Through a Jagged Array
+
+```csharp
+for (int i = 0; i < jagged.Length; i++)
+{
+    for (int j = 0; j < jagged[i].Length; j++)
+    {
+        Console.WriteLine(jagged[i][j]);
+    }
+}
+
+// Using foreach loop
+foreach (int[] arr in jagged)
+{
+    foreach (int num in arr)
+    {
+        Console.WriteLine(num);
+    }
+}
+```
+
+4. Using foreach Loop
+The foreach loop in C# is used to iterate over collections like arrays. It simplifies the iteration process as it does not require an index variable.
+
+Example:
+
+csharp
+Copy code
+int[] numbers = { 1, 2, 3, 4, 5 };
+
+foreach (int number in numbers)
+{
+    Console.WriteLine(number);
+}
+5. The params Keyword
+The params keyword in C# allows a method to accept a variable number of arguments. This is useful when you don't know beforehand how many arguments will be passed to the method.
+
+Example:
+
+csharp
+Copy code
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        PrintNumbers(1, 2, 3, 4, 5); // Calling method with variable arguments
+        PrintNumbers(10, 20); // Another call with different number of arguments
+    }
+
+    static void PrintNumbers(params int[] numbers)
+    {
+        foreach (int number in numbers)
+        {
+            Console.WriteLine(number);
+        }
+    }
+}
+Example with params and other parameters:
+
+csharp
+Copy code
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        PrintDetails("Numbers", 1, 2, 3, 4, 5);
+        PrintDetails("More Numbers", 10, 20);
+    }
+
+    static void PrintDetails(string title, params int[] numbers)
+    {
+        Console.WriteLine(title);
+        foreach (int number in numbers)
+        {
+            Console.WriteLine(number);
+        }
+    }
+}

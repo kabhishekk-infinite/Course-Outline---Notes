@@ -1,0 +1,105 @@
+Iteration statements, also known as loops, are used to repeat a block of code multiple times. In C#, the primary iteration statements are `for`, `while`, `do-while`, and `foreach`. These statements allow you to execute a code block repeatedly based on a condition.
+
+### `for` Loop
+
+The `for` loop is used when you know how many times you want to execute a statement or a block of statements. It consists of three parts: initialization, condition, and iteration.
+
+```csharp
+for (int i = 0; i < 5; i++)
+{
+    Console.WriteLine("i = " + i);
+}
+```
+
+- **Initialization**: `int i = 0` sets the initial value of the loop control variable.
+- **Condition**: `i < 5` determines whether the loop should continue running.
+- **Iteration**: `i++` updates the loop control variable after each iteration.
+
+### `while` Loop
+
+The `while` loop executes a block of code as long as a specified condition is true. It is useful when you don't know in advance how many times you want to execute the loop.
+
+```csharp
+int count = 0;
+
+while (count < 5)
+{
+    Console.WriteLine("count = " + count);
+    count++;
+}
+```
+
+### `do-while` Loop
+
+The `do-while` loop is similar to the `while` loop, but it guarantees that the code block will be executed at least once because the condition is evaluated after the loop has executed.
+
+```csharp
+int count = 0;
+
+do
+{
+    Console.WriteLine("count = " + count);
+    count++;
+} while (count < 5);
+```
+
+### `foreach` Loop
+
+The `foreach` loop iterates through each element of a collection or an array. It is used when you need to access each element of a collection without modifying the loop control variable manually.
+
+```csharp
+int[] numbers = { 1, 2, 3, 4, 5 };
+
+foreach (int number in numbers)
+{
+    Console.WriteLine("number = " + number);
+}
+```
+
+### Example Combining Iteration Statements
+
+Let's combine these iteration statements in a practical example. Suppose we have an array of numbers and we want to calculate the sum of all numbers in the array using different loops.
+
+```csharp
+int[] numbers = { 1, 2, 3, 4, 5 };
+int sum = 0;
+
+// Using for loop
+for (int i = 0; i < numbers.Length; i++)
+{
+    sum += numbers[i];
+}
+Console.WriteLine("Sum using for loop: " + sum);
+
+// Using while loop
+sum = 0;
+int index = 0;
+while (index < numbers.Length)
+{
+    sum += numbers[index];
+    index++;
+}
+Console.WriteLine("Sum using while loop: " + sum);
+
+// Using do-while loop
+sum = 0;
+index = 0;
+do
+{
+    sum += numbers[index];
+    index++;
+} while (index < numbers.Length);
+Console.WriteLine("Sum using do-while loop: " + sum);
+
+// Using foreach loop
+sum = 0;
+foreach (int number in numbers)
+{
+    sum += number;
+}
+Console.WriteLine("Sum using foreach loop: " + sum);
+```
+
+### Conclusion
+
+Iteration statements are essential for repeating actions in your C# programs. By understanding and using `for`, `while`, `do-while`, and `foreach` loops effectively, you can handle repetitive tasks more efficiently and write more concise and readable code.

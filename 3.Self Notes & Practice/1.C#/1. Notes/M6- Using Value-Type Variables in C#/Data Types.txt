@@ -1,0 +1,74 @@
+In C#, data types are divided into several categories, including value types, reference types, and pointer types. Here's a breakdown of these types:
+
+Value Types
+Value types directly contain their data and are stored on the stack. They can be divided into simple types, struct types, enumeration types, and nullable types.
+
+Simple Types:
+
+Integral Types:
+byte: 8-bit unsigned integer (0 to 255)
+sbyte: 8-bit signed integer (-128 to 127)
+short: 16-bit signed integer (-32,768 to 32,767)
+ushort: 16-bit unsigned integer (0 to 65,535)
+int: 32-bit signed integer (-2,147,483,648 to 2,147,483,647)
+uint: 32-bit unsigned integer (0 to 4,294,967,295)
+long: 64-bit signed integer (-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807)
+ulong: 64-bit unsigned integer (0 to 18,446,744,073,709,551,615)
+Floating Point Types:
+float: Single-precision floating point type
+double: Double-precision floating point type
+Decimal Type:
+decimal: 128-bit precise decimal values with 28-29 significant digits
+Boolean Type:
+bool: Represents true or false
+Character Type:
+char: Represents a single 16-bit Unicode character
+Struct Types:
+
+User-defined value types
+Example: struct Point { public int X; public int Y; }
+Enumeration Types:
+
+User-defined types that consist of a set of named constants
+Example: enum Days { Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday };
+Nullable Types:
+
+Value types that can also be assigned null
+Example: int? x = null;
+Reference Types
+Reference types store references to their data, which are stored on the heap. These include class types, interface types, array types, and delegate types.
+
+Class Types:
+
+Defines objects that can contain data and methods
+Example: class Person { public string Name; public int Age; }
+Interface Types:
+
+Defines a contract that can be implemented by classes and structs
+Example: interface IShape { void Draw(); }
+Array Types:
+
+Collections of elements of a specified type
+Example: int[] numbers = { 1, 2, 3, 4, 5 };
+Delegate Types:
+
+References to methods with a specific parameter list and return type
+Example: delegate void Del(string message);
+String Type:
+
+Represents a sequence of characters
+Example: string greeting = "Hello, world!";
+Pointer Types
+Pointer types are used for unsafe code blocks and allow for memory manipulation. They are generally discouraged and not used in regular application development.
+
+Pointer Types:
+Example: int* p;
+Special Types
+Object Type:
+
+The base type from which all other types inherit
+Example: object obj = "Hello";
+Dynamic Type:
+
+Allows for operations to be bypassed by compile-time type checking
+Example: dynamic dyn = 1;

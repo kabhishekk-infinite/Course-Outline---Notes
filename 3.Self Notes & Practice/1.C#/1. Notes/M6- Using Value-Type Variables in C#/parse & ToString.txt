@@ -1,0 +1,224 @@
+In C#, the `Parse` and `TryParse` methods are used to convert strings into other data types, primarily numeric types. These methods are available on various built-in data types like `int`, `double`, `decimal`, and others. Understanding the differences between `Parse` and `TryParse` is essential for handling input conversion correctly.
+
+### Parse Method
+
+The `Parse` method attempts to convert a string to a specified type. If the conversion fails (for example, if the string is not in a valid format), it throws an exception.
+
+#### Example of Parse:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string validNumber = "123";
+        string invalidNumber = "abc";
+
+        try
+        {
+            int parsedNumber = int.Parse(validNumber);
+            Console.WriteLine($"Parsed successfully: {parsedNumber}");
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Format exception: Invalid format");
+        }
+
+        try
+        {
+            int parsedNumber = int.Parse(invalidNumber);
+            Console.WriteLine($"Parsed successfully: {parsedNumber}");
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Format exception: Invalid format");
+        }
+    }
+}
+```
+
+#### Key Points of Parse:
+- **Exception Handling:** Throws a `FormatException` if the string is not in a valid format.
+- **Usage:** Use `Parse` when you are confident that the string is in the correct format and you want an exception to be thrown if it's not.
+
+### TryParse Method
+
+The `TryParse` method attempts to convert a string to a specified type and returns a boolean indicating whether the conversion succeeded. If the conversion fails, it does not throw an exception but instead returns `false`.
+
+#### Example of TryParse:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string validNumber = "123";
+        string invalidNumber = "abc";
+
+        if (int.TryParse(validNumber, out int parsedNumber))
+        {
+            Console.WriteLine($"Parsed successfully: {parsedNumber}");
+        }
+        else
+        {
+            Console.WriteLine("Failed to parse");
+        }
+
+        if (int.TryParse(invalidNumber, out parsedNumber))
+        {
+            Console.WriteLine($"Parsed successfully: {parsedNumber}");
+        }
+        else
+        {
+            Console.WriteLine("Failed to parse");
+        }
+    }
+}
+```
+
+#### Key Points of TryParse:
+- **No Exception Handling:** Does not throw an exception if the conversion fails. Instead, it returns `false`.
+- **Usage:** Use `TryParse` when the input might not always be in the correct format and you want to handle errors gracefully without exceptions.
+
+### Comparison and Use Cases
+
+- **Parse:**
+  - Throws an exception if the input is invalid.
+  - Use it when you expect the input to be valid and want to catch exceptions for invalid inputs.
+  
+- **TryParse:**
+  - Returns `false` if the input is invalid, without throwing an exception.
+  - Use it when you are unsure about the input format and prefer to handle conversion failures gracefully.
+
+### Example Code Demonstrating Both Methods
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Example using Parse
+        string validNumber = "456";
+        string invalidNumber = "not a number";
+
+        try
+        {
+            int parsedNumber = int.Parse(validNumber);
+            Console.WriteLine($"Parsed using Parse: {parsedNumber}");
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Parse: Format exception for validNumber");
+        }
+
+        try
+        {
+            int parsedNumber = int.Parse(invalidNumber);
+            Console.WriteLine($"Parsed using Parse: {parsedNumber}");
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Parse: Format exception for invalidNumber");
+        }
+
+        // Example using TryParse
+        if (int.TryParse(validNumber, out int tryParsedNumber))
+        {
+            Console.WriteLine($"Parsed using TryParse: {tryParsedNumber}");
+        }
+        else
+        {
+            Console.WriteLine("TryParse: Failed to parse validNumber");
+        }
+
+        if (int.TryParse(invalidNumber, out tryParsedNumber))
+        {
+            Console.WriteLine($"Parsed using TryParse: {tryParsedNumber}");
+        }
+        else
+        {
+            Console.WriteLine("TryParse: Failed to parse invalidNumber");
+        }
+    }
+}
+```
+
+This example demonstrates the use of both `Parse` and `TryParse` methods, showing how each handles valid and invalid input differently.
+
+
+
+
+
+
+
+In C#, the `Parse` method is used to convert a string to a numeric type, but it is not used for converting an `int` to a `string`. To convert an `int` to a `string`, you can use several methods such as `ToString`, string interpolation, or the `Convert` class.
+
+### Methods to Convert `int` to `string`
+
+1. **Using `ToString` Method:**
+
+   The `ToString` method is the most common and straightforward way to convert an `int` to a `string`.
+
+   ```csharp
+   int number = 123;
+   string str = number.ToString();
+   Console.WriteLine(str); // Output: "123"
+   ```
+
+2. **Using String Interpolation:**
+
+   String interpolation provides a convenient and readable way to include variable values in strings.
+
+   ```csharp
+   int number = 123;
+   string str = $"{number}";
+   Console.WriteLine(str); // Output: "123"
+   ```
+
+3. **Using `Convert.ToString` Method:**
+
+   The `Convert` class provides a `ToString` method that can also be used to convert an `int` to a `string`.
+
+   ```csharp
+   int number = 123;
+   string str = Convert.ToString(number);
+   Console.WriteLine(str); // Output: "123"
+   ```
+
+### Example Code
+
+Here’s an example demonstrating all three methods:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int number = 123;
+
+        // Using ToString method
+        string str1 = number.ToString();
+        Console.WriteLine($"Using ToString: {str1}"); // Output: "123"
+
+        // Using string interpolation
+        string str2 = $"{number}";
+        Console.WriteLine($"Using String Interpolation: {str2}"); // Output: "123"
+
+        // Using Convert.ToString method
+        string str3 = Convert.ToString(number);
+        Console.WriteLine($"Using Convert.ToString: {str3}"); // Output: "123"
+    }
+}
+```
+
+### Summary
+
+While the `Parse` method is designed to convert strings to numeric types, converting an `int` to a `string` is typically done using `ToString`, string interpolation, or `Convert.ToString`. Each of these methods is straightforward and effective for converting numeric values to their string representations in C#.

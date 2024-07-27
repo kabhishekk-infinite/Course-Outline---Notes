@@ -1,0 +1,194 @@
+Type conversions in C# allow you to convert a variable from one type to another. There are two main types of conversions: implicit and explicit. 
+
+### Implicit Conversions
+Implicit conversions happen automatically when the compiler can guarantee that no data will be lost during the conversion. These conversions are usually safe and happen without any special syntax.
+
+#### Examples of Implicit Conversions:
+
+1. **Numeric Conversions:**
+    ```csharp
+    int num = 123;
+    double doubleNum = num; // int to double
+    ```
+
+2. **Subclass to Base Class Conversion:**
+    ```csharp
+    class Base {}
+    class Derived : Base {}
+    
+    Derived derived = new Derived();
+    Base baseClass = derived; // Derived to Base
+    ```
+
+### Explicit Conversions
+Explicit conversions, also known as casting, require special syntax because they might lead to data loss or an exception if the conversion fails. Explicit conversions are done using the cast operator `(type)`.
+
+#### Examples of Explicit Conversions:
+
+1. **Numeric Conversions:**
+    ```csharp
+    double doubleNum = 123.45;
+    int intNum = (int)doubleNum; // double to int, explicit conversion
+    ```
+
+2. **Class Type Conversions:**
+    ```csharp
+    Base baseClass = new Derived();
+    Derived derived = (Derived)baseClass; // Base to Derived, explicit conversion
+    ```
+
+### Using Conversion Methods
+C# also provides methods for converting types, such as `Convert` class methods, `Parse` methods, and `TryParse` methods.
+
+#### Using the `Convert` Class:
+```csharp
+string str = "123";
+int num = Convert.ToInt32(str); // Convert string to int
+```
+
+#### Using `Parse` Methods:
+```csharp
+string str = "123.45";
+double num = double.Parse(str); // Parse string to double
+```
+
+#### Using `TryParse` Methods:
+```csharp
+string str = "123.45";
+if (double.TryParse(str, out double num))
+{
+    Console.WriteLine($"Parsed successfully: {num}");
+}
+else
+{
+    Console.WriteLine("Failed to parse");
+}
+```
+
+### User-Defined Conversions
+You can define your own implicit and explicit conversions in your custom types by using `implicit` and `explicit` operators.
+
+#### Example of User-Defined Conversion:
+```csharp
+public class Fraction
+{
+    public int Numerator { get; }
+    public int Denominator { get; }
+
+    public Fraction(int numerator, int denominator)
+    {
+        Numerator = numerator;
+        Denominator = denominator;
+    }
+
+    // Define an implicit conversion from Fraction to double
+    public static implicit operator double(Fraction fraction)
+    {
+        return (double)fraction.Numerator / fraction.Denominator;
+    }
+
+    // Define an explicit conversion from double to Fraction
+    public static explicit operator Fraction(double value)
+    {
+        int denominator = 10000;
+        int numerator = (int)(value * denominator);
+        return new Fraction(numerator, denominator);
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        Fraction fraction = new Fraction(1, 2);
+
+        // Implicit conversion to double
+        double fractionAsDouble = fraction;
+        Console.WriteLine(fractionAsDouble);
+
+        // Explicit conversion from double to Fraction
+        Fraction doubleAsFraction = (Fraction)0.75;
+        Console.WriteLine($"{doubleAsFraction.Numerator}/{doubleAsFraction.Denominator}");
+    }
+}
+```
+
+### Example Code
+Here's an example demonstrating various type conversions in C#:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Implicit conversion
+        int intNum = 100;
+        double doubleNum = intNum; // int to double
+        Console.WriteLine(doubleNum);
+
+        // Explicit conversion
+        double anotherDoubleNum = 123.45;
+        int anotherIntNum = (int)anotherDoubleNum; // double to int
+        Console.WriteLine(anotherIntNum);
+
+        // Using Convert class
+        string str = "456";
+        int parsedInt = Convert.ToInt32(str);
+        Console.WriteLine(parsedInt);
+
+        // Using Parse method
+        string doubleStr = "789.01";
+        double parsedDouble = double.Parse(doubleStr);
+        Console.WriteLine(parsedDouble);
+
+        // Using TryParse method
+        string invalidStr = "not a number";
+        if (double.TryParse(invalidStr, out double result))
+        {
+            Console.WriteLine(result);
+        }
+        else
+        {
+            Console.WriteLine("Failed to parse");
+        }
+
+        // User-defined conversion
+        Fraction fraction = new Fraction(3, 4);
+        double fractionAsDouble = fraction; // Implicit conversion
+        Console.WriteLine(fractionAsDouble);
+
+        Fraction doubleAsFraction = (Fraction)0.75; // Explicit conversion
+        Console.WriteLine($"{doubleAsFraction.Numerator}/{doubleAsFraction.Denominator}");
+    }
+}
+
+public class Fraction
+{
+    public int Numerator { get; }
+    public int Denominator { get; }
+
+    public Fraction(int numerator, int denominator)
+    {
+        Numerator = numerator;
+        Denominator = denominator;
+    }
+
+    // Define an implicit conversion from Fraction to double
+    public static implicit operator double(Fraction fraction)
+    {
+        return (double)fraction.Numerator / fraction.Denominator;
+    }
+
+    // Define an explicit conversion from double to Fraction
+    public static explicit operator Fraction(double value)
+    {
+        int denominator = 10000;
+        int numerator = (int)(value * denominator);
+        return new Fraction(numerator, denominator);
+    }
+}
+```
+
+This program illustrates the various ways to perform type conversions in C#. It covers implicit and explicit conversions, as well as the use of conversion methods and user-defined conversions.

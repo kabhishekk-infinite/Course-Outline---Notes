@@ -1,0 +1,74 @@
+Reference Equals : method of the Object class that compares the references of 2 given objects
+
+CompareTo : Compares two integer values and returns
+ -1 (when first number is small)
+  1 (when first number is bigger)
+  0 (when both numbers are equal)
+
+IComparable Interface has one method CompareTo(object Obj), that can be implemented in a class which wants to compare object values
+
+IComparer - interface has Compare() 
+
+
+Exceptions : are unwanted/unexpected events during the program execution.
+
+Handling Exceptions: We need to handle exceptions since we want to exit from the program by indicating in simple terms the issue to the user. Also we would not want to expose the code to the outsiders.
+
+try{} - block:  is a block that identifies where a particular exception is activated. Which ever part of the code, we anticipate can generate exceptions, need to be put inside try block.
+   try block is always followed by 1 or more catch block()
+catch Block : This place is where we handle the exception
+-between try and catch blocks, no other executable code is allowed
+
+finally block : is used to execute statements irrespective of exceptions or not. Normally all clean up and closure statements can be executed here.
+
+throw : keyword is used to raise exceptions
+
+All C# exceptions are represented by classes that are directly or indirectly inherited from System.Exception class
+
+All user defined exception classes will inherit from ApplicationException
+
+ - We have to write our own exception classes
+ - We have to decide when to raise the exception
+ - How to raise the exception
+ - Handle the exception
+
+Exceptions provide a consistent mechanism for identifying and responding to error situations.
+- is a debugging aid since it helps in answering
+  1. what went wrong - is answered by the type of the exception thrown
+  2. Where did it go wrong - is answered by the exception stack trace
+  3. Why did it go wrong - is answered by the exception message
+
+Do not throw exceptions when a simple if can check some statements
+Do not throw Base class Exception().It is too broad a class and catching this exception means all other        	exception swallowed
+Do use try{} finally{} blocks around the code that can generate an exception and centralize catch statements
+
+
+checked and unchecked 
+
+
+Collections : are specialized classes for data storage and retrieval. 
+              are dynamic (allocation and deallocation of memory is dynamic)
+              are not fixed unlike Arrays
+              they can take multiple datatypes
+
+common collection classes:
+   ArrayList  : a collection that can store any datatype. 
+                 Add() - adds a particular object at the end
+                 AddRange() - adds a series of objects at the end
+                 Insert() - inserts an object at a particular location
+                 InsertRange() - inserts a series of objects at a given location
+                 Remove(value)
+                 RemoveAt(index)
+   SortedList  : also operates on a key and  a value pair
+                 they are in a sorted order
+   Stacks      : Last in First Out
+   Queues      : First in First Out
+   HashTables  : stores data in the form of key and value pairs
+                 key has to be unique
+                 key cannot be duplicates/null
+                 values can be null/duplicates 
+                 they are neither arranged in the sorted order,nor in the given order, instead have a unique way of sorting data using 'hashing' technique
+                 can iterate either the keys or the values
+                 if we want to iterate on both the key and values together, we will have to use DictionaryEntry
+
+

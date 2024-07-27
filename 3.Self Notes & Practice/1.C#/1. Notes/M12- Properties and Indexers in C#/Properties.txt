@@ -1,0 +1,105 @@
+Properties in C# provide a way to encapsulate fields within a class or struct while controlling access to them. They are like smart fields that allow you to execute code when a value is read from or assigned to the property. Here’s a detailed look at properties in C#:
+
+### Declaring Properties
+
+Properties are declared using a syntax similar to methods but with `get` and `set` accessors:
+
+```csharp
+public class Person
+{
+    private string name;
+
+    // Property declaration
+    public string Name
+    {
+        get { return name; }    // Getter
+        set { name = value; }   // Setter
+    }
+}
+```
+
+In this example:
+- `Name` is a property that encapsulates the private field `name`.
+- The `get` accessor retrieves the value of `name`.
+- The `set` accessor assigns a new value to `name`.
+
+### Automatic Properties
+
+C# also supports automatic properties, which simplify the syntax for properties that do not require additional logic in their accessors:
+
+```csharp
+public class Person
+{
+    public string Name { get; set; }
+}
+```
+
+In this case:
+- `Name` is an automatic property with both a getter and a setter.
+- The compiler generates a private backing field behind the scenes to store the value of `Name`.
+
+### Read-Only and Write-Only Properties
+
+You can create read-only properties by omitting the `set` accessor:
+
+```csharp
+public class Person
+{
+    public string Name { get; }  // Read-only property
+}
+```
+
+Here, `Name` can only be read from outside the class, not written to.
+
+Similarly, you can create write-only properties by omitting the `get` accessor:
+
+```csharp
+public class Person
+{
+    private string password;
+
+    public string Password
+    {
+        set { password = value; }  // Write-only property
+    }
+}
+```
+
+### Access Modifiers
+
+Properties can have different access modifiers (`public`, `private`, `protected`, `internal`), allowing you to control their visibility and accessibility:
+
+```csharp
+public class Person
+{
+    private string name;
+
+    public string Name
+    {
+        get { return name; }
+        private set { name = value; }  // Private setter
+    }
+}
+```
+
+In this example, `Name` can be read from anywhere but can only be set within the `Person` class (private setter).
+
+### Using Properties
+
+Properties are accessed like fields from outside the class:
+
+```csharp
+Person person = new Person();
+person.Name = "John";   // Setter
+string name = person.Name;  // Getter
+```
+
+### Benefits of Properties
+
+- **Encapsulation**: Properties allow you to encapsulate fields and expose them with controlled access.
+- **Validation**: You can add logic inside the getters and setters to validate values before assigning them to fields.
+- **Readability**: Properties make the code more readable and maintainable compared to directly exposing fields.
+
+### Summary
+
+Properties in C# are a fundamental part of object-oriented programming, providing controlled access to fields within classes or structs. They allow you to encapsulate data, enforce validation rules, and enhance the overall integrity and usability of your code. Understanding how to declare, use, and benefit from properties is crucial for building robust and maintainable C# applications.

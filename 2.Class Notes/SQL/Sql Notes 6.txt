@@ -1,0 +1,73 @@
+Transactions Management :
+A database transaction consists of 
+   -dml statements that constitutes changes
+   -ddl
+   -dcl
+Begins when the first dml statement is executed
+Ends with one of the following
+   - A commit or a rollback statement
+   - Auto commit
+   - User exits
+   - System crashes
+
+With commit and rollback statements, we can ensure
+    - Data Consistency
+    - Preview data changes before making changes permanent
+    - Group logically related operations
+
+Save Transactions 
+    - Are logical markers of a set of operations in atransaction
+    - It is not ANSI standard SQL
+
+Transactions can be grouped and saved under a logical name. This helps us to decide whether to go ahead or undo the changes
+  If we want to undo certain sql statements, we can rollback till a logical transaction
+  If we don't want any transactions, then simply type Rollback
+  If we want changes to be made permanent, then issue just a commit 
+
+A : Atomicity 
+
+C : Consistency
+
+I : Isolation
+
+D : Durability
+
+Locks in transaction help in having consistent and durable data
+They are of 2 types 
+   1. Shared Lock
+   2. Exclusive Lock
+
+set implicit_transactions on/off - enables or disables the auto commit mode
+
+
+Triggers : is like a procedure/function that can be used to define business rules/constraints
+  - are reused, but unlike procedures/functions, they are not called explicitly, but fired automatically
+     on any event (DDL, DML)
+
+- They can before/after or instead of triggers (before the event, after the event or instead of the event)
+
+triggers -> fire on an object-->when an event occurs on the object 
+
+Magic Tables : are temporary tables that gets created when a trigger is fired on an event.
+               - The scope of the Magic Table is within the trigger body
+               - They are 2 in nos.
+                     Inserted
+                     Deleted 
+
+ update events are always delete followed by insert
+
+create trigger <triggername>
+on table/views
+instead of insert,update,delete
+as
+begin
+
+end
+
+
+Views : are virtual tables
+
+DDL triggers : They are of 2 types
+
+ 1. Database Scoped DDL triggers (database level)
+ 2. Server Scoped DDL Triggers (Server Level - all database)

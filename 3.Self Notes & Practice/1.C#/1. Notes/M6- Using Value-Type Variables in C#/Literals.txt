@@ -1,0 +1,159 @@
+In C#, literals are fixed values that you assign to variables. They represent constant values directly in your code. Here are the different types of literals available in C#:
+
+### 1. **Integer Literals**
+Integer literals represent whole numbers without any fractional or decimal part.
+
+- **Decimal:** Default integer literal
+  ```csharp
+  int decimalLiteral = 42;
+  ```
+- **Hexadecimal:** Prefixed with `0x` or `0X`
+  ```csharp
+  int hexLiteral = 0x2A; // 42 in decimal
+  ```
+- **Binary:** Prefixed with `0b` or `0B` (since C# 7.0)
+  ```csharp
+  int binaryLiteral = 0b00101010; // 42 in decimal
+  ```
+
+### 2. **Floating-Point Literals**
+Floating-point literals represent real numbers with fractional parts.
+
+- **Double:** Default floating-point literal
+  ```csharp
+  double doubleLiteral = 3.14;
+  ```
+- **Float:** Suffixed with `f` or `F`
+  ```csharp
+  float floatLiteral = 3.14f;
+  ```
+- **Decimal:** Suffixed with `m` or `M` for high precision
+  ```csharp
+  decimal decimalLiteral = 3.14m;
+  ```
+
+### 3. **Character Literals**
+Character literals represent single characters enclosed in single quotes.
+
+- **Single Character:**
+  ```csharp
+  char charLiteral = 'A';
+  ```
+- **Escape Sequences:** Represent special characters
+  ```csharp
+  char newline = '\n';
+  char tab = '\t';
+  ```
+- **Unicode Characters:** Using `\u` followed by a 4-digit hex code
+  ```csharp
+  char unicodeChar = '\u0041'; // 'A'
+  ```
+
+### 4. **String Literals**
+String literals represent sequences of characters enclosed in double quotes.
+
+- **Regular String:**
+  ```csharp
+  string stringLiteral = "Hello, world!";
+  ```
+- **Verbatim String:** Prefixed with `@` to ignore escape sequences
+  ```csharp
+  string verbatimString = @"C:\Users\Abhishek\Documents";
+  ```
+
+### 5. **Boolean Literals**
+Boolean literals represent true or false values.
+
+- **True or False:**
+  ```csharp
+  bool trueLiteral = true;
+  bool falseLiteral = false;
+  ```
+
+### 6. **Null Literal**
+The `null` literal represents a null reference, meaning the variable does not refer to any object.
+
+- **Null:**
+  ```csharp
+  string nullLiteral = null;
+  ```
+
+### 7. **Integral Suffixes**
+You can use suffixes to indicate the type of an integral literal explicitly.
+
+- **Unsigned:** `U` or `u`
+  ```csharp
+  uint unsignedLiteral = 42u;
+  ```
+- **Long:** `L` or `l`
+  ```csharp
+  long longLiteral = 42L;
+  ```
+- **Unsigned Long:** `UL`, `Ul`, `uL`, `ul`, `LU`, `Lu`, `lU`, `lu`
+  ```csharp
+  ulong unsignedLongLiteral = 42UL;
+  ```
+
+### Example Code
+Here's a simple C# program that demonstrates the use of various literals:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Integer literals
+        int decimalLiteral = 42;
+        int hexLiteral = 0x2A;
+        int binaryLiteral = 0b00101010;
+
+        // Floating-point literals
+        double doubleLiteral = 3.14;
+        float floatLiteral = 3.14f;
+        decimal decimalLiteral = 3.14m;
+
+        // Character literals
+        char charLiteral = 'A';
+        char newline = '\n';
+        char unicodeChar = '\u0041';
+
+        // String literals
+        string stringLiteral = "Hello, world!";
+        string verbatimString = @"C:\Users\Abhishek\Documents";
+
+        // Boolean literals
+        bool trueLiteral = true;
+        bool falseLiteral = false;
+
+        // Null literal
+        string nullLiteral = null;
+
+        // Integral suffixes
+        uint unsignedLiteral = 42u;
+        long longLiteral = 42L;
+        ulong unsignedLongLiteral = 42UL;
+
+        Console.WriteLine($"Decimal: {decimalLiteral}");
+        Console.WriteLine($"Hexadecimal: {hexLiteral}");
+        Console.WriteLine($"Binary: {binaryLiteral}");
+        Console.WriteLine($"Double: {doubleLiteral}");
+        Console.WriteLine($"Float: {floatLiteral}");
+        Console.WriteLine($"Decimal: {decimalLiteral}");
+        Console.WriteLine($"Char: {charLiteral}");
+        Console.WriteLine($"Newline: {newline}");
+        Console.WriteLine($"Unicode: {unicodeChar}");
+        Console.WriteLine($"String: {stringLiteral}");
+        Console.WriteLine($"Verbatim String: {verbatimString}");
+        Console.WriteLine($"Boolean true: {trueLiteral}");
+        Console.WriteLine($"Boolean false: {falseLiteral}");
+        Console.WriteLine($"Null: {nullLiteral}");
+        Console.WriteLine($"Unsigned: {unsignedLiteral}");
+        Console.WriteLine($"Long: {longLiteral}");
+        Console.WriteLine($"Unsigned Long: {unsignedLongLiteral}");
+    }
+}
+```
+
+This program illustrates the use of various literals in C# and prints them to the console.

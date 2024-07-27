@@ -1,0 +1,138 @@
+Sure, let's dive into an introduction to statements in C#. 
+
+### What are Statements in C#?
+
+In C#, statements are instructions that tell the program to perform a specific action. These actions can include declaring variables, performing calculations, making decisions, or controlling the flow of execution. Each statement is typically terminated by a semicolon (`;`).
+
+### Types of Statements in C#
+
+1. **Expression Statements:**
+   Expression statements are the most common type of statement. They can be any expression followed by a semicolon.
+   ```csharp
+   int x = 5;           // Assignment statement
+   x = x + 2;           // Arithmetic statement
+   Console.WriteLine(x); // Method call statement
+   ```
+
+2. **Declaration Statements:**
+   These statements declare variables or constants.
+   ```csharp
+   int age = 25;
+   const double pi = 3.14159;
+   string name = "Abhishek";
+   ```
+
+3. **Control Flow Statements:**
+   Control the flow of execution in the program. These include conditional statements, looping statements, and jump statements.
+   
+   - **Conditional Statements:**
+     ```csharp
+     if (age > 18)
+     {
+         Console.WriteLine("Adult");
+     }
+     else
+     {
+         Console.WriteLine("Minor");
+     }
+
+     switch (age)
+     {
+         case 18:
+             Console.WriteLine("Just an adult");
+             break;
+         case 25:
+             Console.WriteLine("Mid twenties");
+             break;
+         default:
+             Console.WriteLine("Age is just a number");
+             break;
+     }
+     ```
+
+   - **Looping Statements:**
+     ```csharp
+     // For loop
+     for (int i = 0; i < 10; i++)
+     {
+         Console.WriteLine(i);
+     }
+
+     // While loop
+     int count = 0;
+     while (count < 10)
+     {
+         Console.WriteLine(count);
+         count++;
+     }
+
+     // Do-While loop
+     int counter = 0;
+     do
+     {
+         Console.WriteLine(counter);
+         counter++;
+     } while (counter < 10);
+     ```
+
+   - **Jump Statements:**
+     ```csharp
+     // Break statement
+     for (int i = 0; i < 10; i++)
+     {
+         if (i == 5)
+         {
+             break;
+         }
+         Console.WriteLine(i);
+     }
+
+     // Continue statement
+     for (int i = 0; i < 10; i++)
+     {
+         if (i % 2 == 0)
+         {
+             continue;
+         }
+         Console.WriteLine(i);
+     }
+
+     // Return statement
+     int Add(int a, int b)
+     {
+         return a + b;
+     }
+     ```
+
+4. **Exception Handling Statements:**
+   These handle errors and exceptions to prevent the program from crashing.
+   ```csharp
+   try
+   {
+       int[] numbers = { 1, 2, 3 };
+       Console.WriteLine(numbers[5]); // This will throw an exception
+   }
+   catch (IndexOutOfRangeException ex)
+   {
+       Console.WriteLine("Index out of range: " + ex.Message);
+   }
+   finally
+   {
+       Console.WriteLine("This block is always executed.");
+   }
+   ```
+
+5. **Block Statements:**
+   Block statements are used to group multiple statements. They are enclosed in curly braces `{ }`.
+   ```csharp
+   {
+       int a = 10;
+       int b = 20;
+       int sum = a + b;
+       Console.WriteLine(sum);
+   }
+   ```
+
+### Conclusion
+
+Understanding and using these various types of statements effectively allows you to control the flow of your C# programs, handle data, and perform operations. As you progress in your C# programming journey, you'll find yourself using these statements extensively to build more complex and robust applications.

@@ -1,0 +1,65 @@
+In C# programming, performing basic input and output operations is essential for interacting with users and processing data. Here’s how you can handle input and output:
+
+### Output Operations
+
+To display output to the console, you typically use the `Console.WriteLine` method:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Output to the console
+        Console.WriteLine("Hello, world!");
+        
+        // Output with variables
+        int age = 25;
+        Console.WriteLine($"I am {age} years old.");
+    }
+}
+```
+
+- **`Console.WriteLine("Hello, world!");`**: Prints "Hello, world!" followed by a newline.
+- **String Interpolation (`$"I am {age} years old."`)**: Allows embedding expressions inside strings for more dynamic output.
+
+### Input Operations
+
+For accepting input from the user, you use `Console.ReadLine()` method:
+
+```csharp
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Input from the console
+        Console.Write("Enter your name: ");
+        string name = Console.ReadLine();
+        
+        Console.WriteLine($"Hello, {name}!");
+    }
+}
+```
+
+- **`Console.Write("Enter your name: ");`**: Displays the prompt without a newline, allowing the user to enter input on the same line.
+- **`Console.ReadLine()`**: Reads the entire line of input entered by the user as a string.
+
+### Example Program Explanation:
+
+1. **Output**:
+   - `Console.WriteLine("Hello, world!");`: Outputs "Hello, world!" to the console followed by a newline.
+   - `Console.WriteLine($"I am {age} years old.");`: Uses string interpolation to insert the value of `age` variable into the string.
+
+2. **Input**:
+   - `Console.Write("Enter your name: ");`: Prompts the user to enter their name on the console.
+   - `string name = Console.ReadLine();`: Reads the user input as a string and assigns it to the `name` variable.
+
+### Additional Considerations:
+
+- **Formatting Output**: You can format output using placeholders (`{0}`, `{1}`, etc.) or string interpolation (`$"{variable}"`) for more readable and dynamic output.
+- **Parsing Input**: Use methods like `int.Parse()` or `double.Parse()` to convert string input to numeric types if needed, ensuring proper error handling for invalid inputs.
+
+These basic operations form the foundation for building interactive C# applications where users can provide input and receive output from the program.

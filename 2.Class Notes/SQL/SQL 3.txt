@@ -1,0 +1,280 @@
+--second highest problems are solved using corelated sub query
+
+select empname,salary from tblemployees order by salary desc
+update tblemployees set salary = 7000 where empname = 'vijendra'
+
+select e.Empname, e.salary from tblemployees e
+where 2 =(select count(salary)from tblemployees e2 where e2.Salary >=e.salary)
+
+-- in many cases corelated sub query can be replaced with inner join for better performance
+
+--eg 1. Find all employees whose salary is greater than the average salary of that department
+
+--with corelated sub query
+select e1.Empid, e1.empname from tblemployees e1
+where salary > (select avg(salary) from tblemployees e2 where e2.deptno = e1.deptno)
+
+--with inner join
+select e1.Empid, e1.empname from tblemployees e1 join 
+                       (select deptno, avg(salary) as 'Dept Average' from tblemployees
+					   group by deptno) as T on e1.DeptNo = T.DeptNo
+					   where e1.Salary > t.[Dept Average]
+
+--corelated sub query for updation
+--eg 2. update salary for all employees, whose salary is minimum in that departement
+
+update tblemployees set salary = 6000 where empid =108
+
+update tblemployees set salary = Salary + 20 
+from tblemployees t1 where Salary <=
+                       (select min(t2.salary) from tblemployees t2 where t2.deptno = t1.DeptNo)
+
+select empname, salary from tblemployees
+
+--bulk insertion
+
+create table dummy1(did int, dname varchar(10))
+
+alter table dummy1 add daddress varchar(10)
+
+update dummy1 set daddress = 'Infinite'
+
+drop table dummy2
+create table dummy2(id int, dummyname varchar(10),dphone varchar(5),dcity varchar(6),dsal float)
+
+insert into dummy1 values(1,'A'),(2,'B'),(3,'C'),(4,'D')
+select * from dummy1
+select * from dummy2
+
+-- source having more columns than destination
+insert into dummy2(id, dummyname) select did,dname from dummy1 
+
+--destination having more columns than source, then we need to specify 
+--the column list for insertion
+insert into dummy2(id, dummyname) select did,dname from dummy1 
+
+
+--identity column
+drop table sample1
+create table Sample1
+(S_id int identity(2,2),
+sname varchar(5))
+
+sp_help sample1
+
+sp_help tblemployees
+
+insert into sample1 values('BCOM')
+
+select * from sample1
+delete from sample1 where s_id=2
+
+--drop vs truncate vs delete
+
+create table test(tid int, tname char(5))
+insert into test values(1,'g'),(2,'p'),(3,'o')
+select * from test
+
+drop table test
+truncate table test
+
+delete from test
+where tid>1
+
+begin tran
+  delete from test
+where tid>1
+rollback
+
+--hard delete vs soft delete
+delete tbldepartment where deptno=1
+
+update tblDepartment set deptno=0 where deptno=1  -- soft delete
+
+alter table tblemployees
+add remarks varchar(max)
+select * from tblemployees
+update tblemployees set remarks ='inactive' where empid=300
+
+--case
+create table casetable(cid int, cname varchar(20))
+
+insert into casetable values(5, 'White'),(3,'Blue'),(2,'Green'),(4,'Red')
+
+--Simple Case without else
+select cid,cname,
+ case cname
+   when 'Red' then 'Danger'
+   when 'Blue' then 'Primary'
+   when 'Green' then 'Success'
+ end as Remarks
+  from casetable
+
+ --case with else
+ select cid,cname,
+ case cname
+   when 'Red' then 'Danger'
+   when 'Blue' then 'Primary'
+   when 'Green' then 'Success'
+   else 'No Comments'
+ end as 'Color Remarks'
+  from casetable
+
+
+ --searched case with else
+  select cid,cname,
+  case 
+    when cname ='Red' then 'Danger'
+	when cname='Blue' then 'Primary'
+    when cname='Green' then 'Success'
+	else 'Incorrect Color'
+  end as ColorStatus
+  from casetable
+ 
+--t-sql (transact sql)helps us to use programming constructs viz.
+--1. variables
+--2. if else
+--3. case
+--4. while
+--5. break and continue
+
+--nested case
+declare @totsales int
+set @totsales=530
+select case
+  when @totsales >=500 then 'Bumper Sales'
+  when @totsales <500 then  
+      case 
+	    when @totsales between 100 and 200 then 'Poor Sales'
+		when @totsales between 201 and 300 then 'Ok Sales'
+		when @totsales between 301 and 400 then 'Good Sales'
+		else 'No Sales'
+      end
+  end as SalesData
+
+  --nested case inside if else
+declare @sales int
+set @sales=245
+select @sales as 'Total Sales'
+
+print 'The Total Sales made is ' + ' ' + cast(@sales as varchar(5))
+if @sales >300
+   select 'Bumper Sales'
+else
+ begin 
+   select case
+    when @sales between 100 and 200 then 'Poor Sales'
+	 when @sales between 201 and 300 then 'OK Sales'
+	  when @sales between 301 and 400 then 'Good Sales'
+    else 'No Sales'
+	end 'Sales Status'
+  end
+
+--tsql 1. 
+begin
+declare @v int=50, @v2 int=100, @sum int
+set @sum = @v
+print 'The sum of 2 nos is ' + cast(@sum as varchar(5))
+if(@v > @v2)
+ print 'v is greater'
+else
+ print 'v2 is greater'
+end
+
+--ex 1.
+--using tsql increase the salary by 100/- for all employees 
+--who earn less than 103 empid
+begin
+ declare @sal float
+ declare @ename varchar(30)
+ select @ename=empname, @sal=salary from tblemployees where empid=102
+print 'Name of the employee : ' + @ename
+print 'Salary is :' + cast(@sal as varchar(10))
+if(@sal<=6100)
+ begin
+  set @sal=@sal +100
+   print 'Revised Salary : '+ cast(@sal as varchar(10))
+  end
+  else
+  begin
+   print 'Salary seems ok'
+  end
+end
+
+--while
+declare @ctr int = 1
+while @ctr <= 5
+ begin
+   print @ctr
+   set @ctr = @ctr + 1;
+  end
+
+  --while with break
+  declare @ctr1 int = 0
+while @ctr1 <= 5
+ begin
+ set @ctr1 = @ctr1 + 1;
+ if @ctr1 = 4
+ break
+   print @ctr1   
+  end
+ 
+ --while with continue
+   declare @ctr2 int = 0
+while @ctr2 <= 5
+ begin
+ set @ctr2 = @ctr2 + 1;
+ if @ctr2 = 4
+ continue
+   print @ctr2   
+  end
+
+
+--set commands
+--union and union all
+create table utable1(tid int identity,tname varchar(30),
+tgrade char(1), tpercentage int)
+
+insert into utable1 values('Nithin','A',85),('Pratheeba','A',80),('Raghav','B',65),
+('Raghu','B',60)
+
+create table utable2(tid int identity,tname varchar(30),
+tgrade char(1), tpercentage int)
+
+delete from utable2
+insert into utable2 values('Ritesh','A',85),('Saivardhan','A',80),('Jahnavi','B',65),
+('Kajal','B',63)
+
+select * from utable1
+select * from utable2
+
+select tgrade,tpercentage from utable1
+where tname like 'R%'
+union all
+select tgrade,tpercentage from utable2
+
+--intersect
+create table empdetails
+(Id int identity,
+EName varchar(30), Age int, City varchar(20))
+
+insert into empdetails values('Suresh',24,'Delhi'),('Ramesh',23,'Pune'),('Vijesh',30,'Kolkatta')
+
+create table Bonusdata(BonusId int, Eid int, bonusAmt int)
+
+insert into Bonusdata values(20,5,10000),(15,3,30000)
+
+select ID, Ename,bonusAmt from empdetails
+left join Bonusdata on empdetails.Id = Bonusdata.Eid
+intersect
+select ID, Ename,bonusAmt from empdetails
+right join Bonusdata on empdetails.Id = Bonusdata.Eid
+
+--except
+
+select ID, Ename,bonusAmt from empdetails
+left join Bonusdata on empdetails.Id = Bonusdata.Eid
+except
+select ID, Ename,bonusAmt from empdetails
+right join Bonusdata on empdetails.Id = Bonusdata.Eid
+

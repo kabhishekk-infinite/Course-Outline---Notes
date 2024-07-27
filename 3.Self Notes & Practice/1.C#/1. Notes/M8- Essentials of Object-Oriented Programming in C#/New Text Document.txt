@@ -1,0 +1,227 @@
+Certainly! Let's go through each of these concepts with examples in C#:
+
+### 1. Understanding Namespaces
+
+Namespaces are used to organize code into logical groups and to avoid name collisions. They provide a way to group related classes, interfaces, structs, enums, and delegates. Here’s a simple example:
+
+```csharp
+// Define a namespace
+namespace MyNamespace
+{
+    // Define a class within the namespace
+    public class MyClass
+    {
+        public void MyMethod()
+        {
+            Console.WriteLine("Method called from MyClass in MyNamespace.");
+        }
+    }
+}
+
+// Using the namespace and class
+class Program
+{
+    static void Main()
+    {
+        // Create an instance of MyClass
+        MyNamespace.MyClass myObject = new MyNamespace.MyClass();
+
+        // Call the method
+        myObject.MyMethod();
+    }
+}
+```
+
+In this example:
+- `MyNamespace` is the namespace that contains `MyClass`.
+- `MyClass` is a class within the `MyNamespace`.
+- `MyMethod` is a method defined in `MyClass`.
+- The `Main` method demonstrates how to use classes from a namespace.
+
+
+
+### 2. Understanding Scope Resolution
+
+Scope resolution in C# determines the visibility and accessibility of variables, methods, and other entities within a program. Here’s a brief example:
+
+```csharp
+class Program
+{
+    static int globalVariable = 10; // Global variable
+
+    static void Main()
+    {
+        int localVariable = 20; // Local variable
+
+        // Access global variable
+        Console.WriteLine("Global variable: " + globalVariable);
+
+        // Access local variable
+        Console.WriteLine("Local variable: " + localVariable);
+
+        // Access global variable using class name
+        Console.WriteLine("Global variable using class name: " + Program.globalVariable);
+    }
+}
+```
+
+In this example:
+- `globalVariable` is a static variable accessible throughout the `Program` class.
+- `localVariable` is a variable defined within the `Main` method and is local to it.
+- Scope resolution allows distinguishing between local and global variables using their scope (local to method or class-level).
+
+
+
+
+### 3. Defining Classes
+
+Classes in C# are blueprints for creating objects. They define the data (fields) and behavior (methods) that objects will have. Here’s a basic example:
+
+```csharp
+// Define a class
+public class Person
+{
+    // Fields (data members)
+    public string Name;
+    public int Age;
+
+    // Constructor
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+
+    // Method
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"Name: {Name}, Age: {Age}");
+    }
+}
+
+// Using the class
+class Program
+{
+    static void Main()
+    {
+        // Create an object of Person class
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Bob", 25);
+
+        // Call method to display information
+        person1.DisplayInfo();
+        person2.DisplayInfo();
+    }
+}
+```
+
+In this example:
+- `Person` is a class that represents a person with `Name` and `Age` properties.
+- `DisplayInfo` is a method of the `Person` class that displays the information of the person.
+- `Main` method demonstrates how to create instances of the `Person` class and call its methods.
+
+
+
+
+
+### 4. Instantiating and Working with Objects
+
+Instantiating objects means creating instances of a class. Here’s a continuation from the previous example:
+
+```csharp
+class Program
+{
+    static void Main()
+    {
+        Person person1 = new Person("Alice", 30);
+        Person person2 = new Person("Bob", 25);
+
+        person1.DisplayInfo();
+        person2.DisplayInfo();
+
+        // Modifying object properties
+        person1.Age = 32;
+        person2.Name = "Robert";
+
+        // Calling method after modification
+        person1.DisplayInfo();
+        person2.DisplayInfo();
+    }
+}
+```
+
+In this continuation:
+- Objects `person1` and `person2` are instances of the `Person` class.
+- You can modify object properties (`Age` and `Name`) and call methods (`DisplayInfo`) on these instances.
+
+
+
+
+### 5. Difference between Abstraction and Encapsulation
+
+- **Abstraction** focuses on hiding the complexity of the implementation and showing only the essential features of an object. It is achieved through abstract classes and interfaces.
+- **Encapsulation** is the bundling of data (fields) and methods that operate on the data into a single unit (class). It protects the data from outside interference and misuse.
+
+
+
+
+
+### 6. Understanding and Implementing Encapsulation
+
+Encapsulation ensures that the internal state of an object is accessible only through public methods. Here’s an example:
+
+```csharp
+public class BankAccount
+{
+    private double balance; // Private field
+
+    public void Deposit(double amount)
+    {
+        balance += amount;
+    }
+
+    public void Withdraw(double amount)
+    {
+        if (amount <= balance)
+        {
+            balance -= amount;
+        }
+        else
+        {
+            Console.WriteLine("Insufficient funds.");
+        }
+    }
+
+    public double GetBalance()
+    {
+        return balance;
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        BankAccount account = new BankAccount();
+        account.Deposit(1000);
+        Console.WriteLine("Balance: " + account.GetBalance());
+
+        account.Withdraw(500);
+        Console.WriteLine("Balance after withdrawal: " + account.GetBalance());
+    }
+}
+```
+
+In this example:
+- `balance` is a private field encapsulated within the `BankAccount` class.
+- `Deposit`, `Withdraw`, and `GetBalance` methods provide controlled access to modify and retrieve the `balance` field.
+
+
+
+
+
+### 7. Defining Object-Oriented Systems
+
+Object-oriented systems are designed around objects that interact with each other to accomplish tasks. They typically involve defining classes, encapsulating data and methods, establishing relationships between classes (inheritance, composition), and using polymorphism to achieve flexibility.
+
+These concepts form the foundation of object-oriented programming in C#. Mastering them allows developers to create efficient, maintainable, and scalable applications.

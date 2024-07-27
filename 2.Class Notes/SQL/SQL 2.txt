@@ -1,0 +1,199 @@
+use InfiniteDB
+
+select * from tblemployees where Salary > avg(Salary)
+
+--group by clause is used to divide the rows of the table into smaller sets of data
+--we can apply group by clause only on the columns in the select list
+--we have to group by on all the columns in the list
+-- we can group on multiple columns, provided we select the columns in the select list
+--we cannot group on an alias name
+
+--1. dept wise avg salary
+
+select deptno as 'Department', avg(Salary) 'Average Salary' from tblemployees
+group by DeptNo
+
+--2. count the no.of male and female employees
+select gender, count(*)'No of Employees' from tblemployees
+group by gender
+
+insert into tblemployees values(113, 'Kajal', 'Female',6500,4, 56272211),
+(110,'Shreyash', 'Male',6520,5,768989), (115,'Naman','Male',6455,5,0967879),
+(114,'Vijendra','Male',6520,4,09892765),(120,'vaishnavi','Female',6450,5,0988765)
+
+
+--3. dept wise no. of male and female employees
+select deptno,gender,count(*)'No of Employees' from tblemployees
+group by deptno,gender
+order by deptno,gender
+
+update tblemployees set gender ='Female' where empid=107
+
+select * from tblemployees where gender is null
+
+--4. dept wise, no. of male and female employees where the count is > 1
+select deptno,gender, count(*)'No of Employees' from tblemployees
+group by deptno,gender
+having count(*)>1
+order by deptno
+
+--5. dept wise average salary having average salary > 6300
+select deptno,avg(salary) as 'Average Salary' from tblemployees
+where deptno is not null
+group by deptno
+having avg(salary)>6300
+order by deptno desc
+
+select * from tblDepartment
+select * from tblemployees
+
+--department name wise total salary where total salary > 13000
+-- the above query involves 2 tables
+-- we will need to join the tables
+
+--joining 2 tables to get the expected output
+select DeptName, sum(salary) as 'Total Salary for Dept' from tblDepartment, tblemployees
+where tblDepartment.DeptNo = tblemployees.DeptNo
+group by DeptName
+having sum(salary)>13000
+
+--joining 2 tables and qualifying with thier original names
+select tbldepartment.DeptName, sum(salary) as 'Total Salary for Dept' from tblDepartment, tblemployees
+where tblDepartment.DeptNo = tblemployees.DeptNo
+group by tblDepartment.DeptName
+having sum(salary)>13000
+
+--joining 2 tables and qualifying with their alias names
+select t1.DeptName, sum(salary) as 'Total Salary for Dept' from tblDepartment t1, tblemployees t2
+where t1.DeptNo = t2.DeptNo
+group by t1.DeptName
+having sum(salary)>13000
+
+--Joins
+-- Cross Joins (cartesian product)
+-- Inner Join  (Natural/Equi)
+-- Outer Join  ( left,right,full)
+-- Self Join  (join a table with itself)
+
+
+--1. cross join
+select * from tblemployees, tblDepartment
+--or
+select * from tblemployees cross join tblDepartment
+
+--2. Equi/Natural/Inner Join
+select td.deptname,td.loc,te.empname,te.salary from tblDepartment td, tblemployees te
+where td.DeptNo= te.DeptNo
+
+--or 
+select td.deptname,td.loc,te.empname,te.salary from tblDepartment td join tblemployees te
+on td.DeptNo=te.DeptNo
+
+--or
+select td.deptname,td.loc,te.empname,te.salary from tblDepartment td inner join tblemployees te
+on td.DeptNo=te.DeptNo
+
+--3. outer join (matching + non matching records/rows )
+
+insert into tblDepartment values(7,'Sales',450000,'Kolkatta')
+
+select * from tbldepartment
+select * from tblemployees
+--left outer join -all matching records/rows from both the tables and non matching rows from 
+ --the left hand side table
+
+select td.deptname,td.loc,te.empname,te.salary from tblDepartment td left outer join 
+tblemployees te on td.DeptNo=te.DeptNo
+
+--right out join -- all matching records/rows from both the tables and non matching rows from 
+ --the right hand side table
+
+select td.deptname,td.loc,te.empname,te.salary from tblDepartment td right outer join 
+tblemployees te on td.DeptNo=te.DeptNo
+
+--full outer join - all matching records/rows from both the tables and non matching rows from 
+ --the left hand side table and also non-matching rows of the right hand side table
+
+select td.deptname,td.loc,te.empname,te.salary from tblDepartment td full outer join 
+tblemployees te on td.DeptNo = te.DeptNo
+
+--display all the supervisor names and their subordinate names
+--4. self join (a table joining with itself. giving alias names become a must)
+select t1.empname as 'Supervisor Name', t2.Empname as 'Subordinates name'  from tblemployees t1 join tblemployees t2
+on t1.empid=t2.mgrid
+
+/*multiple joins
+  select t1.col1, t2.col5,t3.col2,t4.col4 from t1 join t2 on t1.c = t2.col join t3 on 
+  t2.c = t3.c join t4 on t3.c = t4.c */
+
+ --sub queries
+ -- display all employees who have salaries greater than Ayesha
+ select salary from tblemployees where empname like 'ayesha'  -- 6300
+
+ select empname, salary from tblemployees where Salary > 6300
+
+  select empname, salary from tblemployees where Salary > 
+                                                 (select salary from tblemployees where empname like 'ayesha')
+
+--
+select empname, salary from tblemployees where Salary > any
+                                                 (select salary from tblemployees where empname like 'A%')
+												 -- 6400,6000,6200,6100,6300,6300
+
+select empname, salary from tblemployees where Salary > all
+                                                 (select salary from tblemployees where empname like 'A%')
+												 -- 6400,6000,6200,6100,6300,6300
+
+select empname, salary from tblemployees where Salary in
+                                                 (select salary from tblemployees where empname like 'A%')
+												 -- 6400,6000,6200,6100,6300,6300
+
+--list of employees who works in the deptno as that of 103 and earns salary > than 106
+
+select empname,salary from tblemployees
+where deptno = 
+              (select deptno from tblemployees  where Empid = 103)  -- 2
+and salary >
+            (select salary from tblemployees where empid = 108)    -- 5000
+
+--using group functions in subquery
+
+select empname,gender, salary
+from tblemployees where salary >
+                           (select avg(salary) from tblemployees)
+
+--having clause with subqueries
+
+select deptno, min(salary) from tblemployees
+group by deptno
+having min(salary) >
+                  (select min(salary) from tblemployees where deptno = 4)
+
+--Exists operator  (in) 
+ -- test for existence of rows in the result of the subquery
+ -- if found the search does not continue the inner query and returns true
+ -- if not found, then it returns false and continues the search
+
+ --select empid,job,name, deptid from emp outer
+ --where exists(select 'x' from emp where mgrid = outer.mgrid)
+
+ --select empid,job,name, deptid from emp outer
+ --where empid in(select mgrid from emp where mgrid is not null)
+
+ -- ex 1. find all departments that have any employees
+
+ select deptno,deptname from tblDepartment d
+ where exists(select 'x' from tblemployees where deptno = d.DeptNo)
+
+ -- the above query can also be used with in as below
+ select deptno,deptname from tblDepartment d
+ where deptno in(select deptno from tblemployees where deptno = d.DeptNo)
+
+ --ex.2. find all departments that do not have any employees
+
+ select deptno,deptname from tblDepartment d
+ where not exists(select 'x' from tblemployees where deptno = d.DeptNo)
+
+ select deptno,deptname from tblDepartment d
+ where deptno not in(select deptno from tblemployees where deptno = d.DeptNo)
+

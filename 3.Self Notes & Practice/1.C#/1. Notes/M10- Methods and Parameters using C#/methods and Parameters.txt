@@ -1,0 +1,251 @@
+In C#, methods are blocks of code that perform specific tasks and can be called upon to execute those tasks when needed. Methods help in organizing code into manageable pieces and promote code reusability. Here's a brief description of methods and parameters in C#:
+
+### Methods
+
+A method in C# is defined within a class or struct and includes a sequence of statements that perform an action. The general syntax for defining a method is:
+
+```csharp
+[access_modifier] return_type MethodName([parameters])
+{
+    // Method body
+}
+```
+
+- **access_modifier**: Specifies the visibility of the method (e.g., `public`, `private`, `protected`, `internal`).
+- **return_type**: The type of value the method returns (e.g., `int`, `void`, `string`). Use `void` if the method does not return a value.
+- **MethodName**: The name of the method. By convention, method names are PascalCase.
+- **parameters**: A comma-separated list of parameters the method accepts.
+
+### Example
+
+```csharp
+public class Example
+{
+    // A method that takes two integers and returns their sum
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+
+    // A method that prints a message to the console
+    public void PrintMessage(string message)
+    {
+        Console.WriteLine(message);
+    }
+}
+```
+
+### Parameters
+
+Parameters are variables that are passed to a method, allowing you to pass data into methods. There are different types of parameters in C#:
+
+1. **Value Parameters**: These are the most common type and are passed by value. This means that any changes made to the parameter inside the method do not affect the original argument.
+
+   ```csharp
+   public void Method(int x)
+   {
+       x = 10; // This change will not affect the original value
+   }
+   ```
+
+2. **Reference Parameters**: These are passed by reference using the `ref` keyword. Changes to the parameter will affect the original argument.
+
+   ```csharp
+   public void Method(ref int x)
+   {
+       x = 10; // This change will affect the original value
+   }
+   ```
+
+3. **Output Parameters**: These are used to return multiple values from a method using the `out` keyword. An `out` parameter must be assigned a value before the method returns.
+
+   ```csharp
+   public void Method(out int x)
+   {
+       x = 10; // This value is returned to the caller
+   }
+   ```
+
+4. **Parameter Arrays**: These allow you to pass a variable number of arguments to a method using the `params` keyword.
+
+   ```csharp
+   public void Method(params int[] numbers)
+   {
+       foreach (int number in numbers)
+       {
+           Console.WriteLine(number);
+       }
+   }
+   ```
+
+### Example with Different Parameter Types
+
+```csharp
+public class ParameterExamples
+{
+    // Method with value parameters
+    public void ValueParamMethod(int a)
+    {
+        a = 20; // Changes local copy
+    }
+
+    // Method with reference parameters
+    public void RefParamMethod(ref int b)
+    {
+        b = 30; // Changes the original value
+    }
+
+    // Method with output parameters
+    public void OutParamMethod(out int c)
+    {
+        c = 40; // Must assign a value to out parameter
+    }
+
+    // Method with parameter arrays
+    public void ParamsMethod(params int[] numbers)
+    {
+        foreach (int number in numbers)
+        {
+            Console.WriteLine(number);
+        }
+    }
+}
+```
+
+Understanding methods and parameters is fundamental in C# programming as they form the building blocks for writing modular, reusable, and maintainable code.
+
+
+
+
+
+
+
+
+
+In C#, reference types such as `string`, `array`, and `object` are handled differently from value types when passed as parameters to methods. Here’s a detailed look at how each of these reference types is passed and manipulated within methods:
+
+### Passing Reference Types
+
+1. **Strings**
+
+   Although `string` is a reference type in C#, it is immutable. This means that once a `string` object is created, it cannot be changed. When you pass a `string` to a method, any modifications create a new `string` object rather than modifying the original.
+
+   ```csharp
+   public void ModifyString(string str)
+   {
+       str = "New Value"; // This creates a new string object
+   }
+
+   public void TestString()
+   {
+       string original = "Original Value";
+       ModifyString(original);
+       Console.WriteLine(original); // Outputs: Original Value
+   }
+   ```
+
+2. **Arrays**
+
+   Arrays are mutable reference types. When you pass an array to a method, you can modify the elements of the array, and these changes will be reflected outside the method.
+
+   ```csharp
+   public void ModifyArray(int[] arr)
+   {
+       arr[0] = 100; // This modifies the original array
+   }
+
+   public void TestArray()
+   {
+       int[] originalArray = { 1, 2, 3 };
+       ModifyArray(originalArray);
+       Console.WriteLine(originalArray[0]); // Outputs: 100
+   }
+   ```
+
+3. **Objects**
+
+   Like arrays, objects are mutable reference types. Passing an object to a method allows you to modify its properties, and these changes will persist outside the method.
+
+   ```csharp
+   public class Person
+   {
+       public string Name { get; set; }
+   }
+
+   public void ModifyObject(Person person)
+   {
+       person.Name = "New Name"; // This modifies the original object
+   }
+
+   public void TestObject()
+   {
+       Person person = new Person { Name = "Original Name" };
+       ModifyObject(person);
+       Console.WriteLine(person.Name); // Outputs: New Name
+   }
+   ```
+
+### Example with Different Reference Types
+
+Here’s an example demonstrating the passing of `string`, `array`, and `object` reference types to methods:
+
+```csharp
+public class ReferenceTypeExamples
+{
+    // Method that attempts to modify a string
+    public void ModifyString(string str)
+    {
+        str = "New Value"; // This will not change the original string
+    }
+
+    // Method that modifies an array
+    public void ModifyArray(int[] arr)
+    {
+        if (arr.Length > 0)
+        {
+            arr[0] = 100; // This will change the original array
+        }
+    }
+
+    // Method that modifies an object's property
+    public void ModifyObject(Person person)
+    {
+        if (person != null)
+        {
+            person.Name = "New Name"; // This will change the original object's property
+        }
+    }
+
+    // Testing the methods
+    public void TestReferenceTypes()
+    {
+        // Test string
+        string originalString = "Original Value";
+        ModifyString(originalString);
+        Console.WriteLine(originalString); // Outputs: Original Value
+
+        // Test array
+        int[] originalArray = { 1, 2, 3 };
+        ModifyArray(originalArray);
+        Console.WriteLine(originalArray[0]); // Outputs: 100
+
+        // Test object
+        Person person = new Person { Name = "Original Name" };
+        ModifyObject(person);
+        Console.WriteLine(person.Name); // Outputs: New Name
+    }
+}
+
+public class Person
+{
+    public string Name { get; set; }
+}
+```
+
+### Summary
+
+- **Strings**: Passed by reference but immutable; changes create a new string object.
+- **Arrays**: Passed by reference and mutable; modifications affect the original array.
+- **Objects**: Passed by reference and mutable; modifications to properties affect the original object.
+
+Understanding these behaviors is crucial for effective programming in C#, as it helps in managing side effects and ensuring that methods produce the expected results.

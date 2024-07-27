@@ -1,0 +1,50 @@
+Creational Design Patterns : are patterns to design and develop applications where the expectation is to create and initialize the required objects, without exposing the logic for creation
+
+  1. Factory Pattern : This pattern suggests to have a factory where the type of object required by the user is created and initialized
+
+ 2. Abstract Factory Pattern : As per GOF, this pattern provides a way to encapsulate a group of factories with a common theme without specifying their concrete classes (implementing class). 
+
+ 3. Singleton Pattern : This pattern ensures that only one instance of the singleton class is created through out the application
+                        Provides global access point to that instance
+                        Provides thread safety as it creates only one instance, preventing multiple instances due to multi threaded application
+                        Singleton instance are initialized in a lazy manner, meaning it is created only on the first request, and not whne the application
+
+Singleton Implementation :
+    1. Private constructor for the singleton class
+    2. Singleton classes are sealed
+    3. private static variable that can hold the instance of the singleton(as per our demo - stobj)
+    4. public static method or property that can return the instance of the singleton class  (as per our demo - GetInstance())
+
+
+DI frameworks in the market : Castle Windsor, Spring.Net, StructureMap, unity, Ninject etc...
+
+DI using unity framework(Ioc framework)
+
+Unity is an Inversion of Control Container, which is a general purpose extensible opensource. Licensed under Apache 2.0
+
+- Specifies the type of objects to be created and injected
+- Registering the types
+- Resolving concrete types with the registered types 
+
+(registered types - Interface types/Abstract types)
+(Concrete types - Interface implementing class)
+
+Resolving is basically mapping the registered type with the concrete type
+
+Layered Architecture : where components of specific functionalities can be grouped under one 
+
+User Interface : UI
+Business Layer : Business Access Layer (BAL), where all business rules are implemented
+Data Layer : Data Access Layer (DAL), where all data related activities viz. database connection, issuing commands, retrieval of data 
+
+
+Physical Layering  : When we create the above layers in different machines
+Logical Layering : If we place them separately in the same application 
+ 
+
+DI Patterns involves 3 types of classes
+1. Client Class : This is class is the dependent class that depends on the services 
+2. Service Class : This is dependency class that provides the services
+3. Injector Class : This class is the class which injects the services into the client
+
+                        

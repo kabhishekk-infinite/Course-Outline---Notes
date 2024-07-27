@@ -1,0 +1,226 @@
+--cte
+--1.
+
+with firstcte(Empname, AnnualSalary, Department)
+as
+(select Empname, (salary*12),tblDepartment.DeptName
+from tblemployees join tblDepartment
+on tblemployees.DeptNo = tblDepartment.DeptNo)
+
+--main query1
+--select * from firstcte where AnnualSalary>75000
+
+--query 2
+select department,avg(annualsalary)'Dept Average' from firstcte
+group by Department having avg(annualsalary) >78000
+
+--eg 2 multiple ctes
+with cte1 as(select * from tblemployees),
+cte2 as (select * from tblDepartment)
+
+--main query using ctes
+select cte1.empname,cte1.salary,cte2.deptname from
+cte1 join cte2 on cte1.DeptNo= cte2.DeptNo and cte1.Salary>6400
+
+--eg 3 dml operations with cte
+with dmlcte1(DepartmentNo,DeptName,NewLocation)as(select deptno,deptname,loc from tblDepartment)
+
+-- main query
+--select * from dmlcte1
+insert into dmlcte1 values(11,'second Dept','Cochin')
+
+--eg 4 
+with dmlcte2(Department_Number, DeptartmentName,DeptLocation)
+as(select deptno,deptname,loc from tblDepartment)
+
+--
+update dmlcte2 set deptlocation='Navi Mumbai' where Department_Number=4
+
+--recursive cte
+
+with cte_week(n,wkday)
+as(select 0,DATENAME(dw,0)
+union all
+select n + 1, datename(dw,n+1) from cte_week where n < 6)
+
+select n,wkday from cte_week
+
+select datename(dw,getdate())
+
+--Hierarchial queries with cte(recursive)
+
+with ourcte(EmpNo,EName,MGR,EmpLevel)
+as(select empno,ename,mgrid,1 EmpLevel   -- initial subquery
+  from emp where mgrid is null
+  union all
+select e.empno,e.ename,e.mgrid,oc.emplevel + 1   -- recursive subquery
+from emp e inner join ourcte oc on e.mgrid = oc.empno
+where e.mgrid is not null)
+
+select * from ourcte 
+order by emplevel
+
+--Stored Procedure
+
+create procedure sp_welcome
+as
+begin
+ select 'Hello and Welcome to SQL procedures'
+end
+
+--to execute procedure
+--1.
+execute sp_welcome
+--2.
+exec sp_welcome
+--3.
+sp_welcome
+
+sp_helptext sp_welcome
+
+create proc sp_deptdetails
+as
+begin
+select * from dept
+where deptno=20
+end
+--to execute
+sp_deptdetails
+
+--to remove procedure from the database schema
+drop proc sp_deptdetails
+
+--delete some data
+create or alter proc sp_deleteemp
+as
+begin
+ select * from tblemployees where empid=300
+ delete from tblemployees where empid =300
+  select * from tblemployees where empid=300
+  select getdate()as 'Todays Date'
+ end
+
+ exec sp_deleteemp
+
+ --procedure with parameter
+ --1. procedure that takes a name from the user and welcomes that user
+ create proc sp_parameter1 @name varchar(20)
+ as
+ begin
+   select concat('Hello ', @name)
+end
+
+--to execute the above
+sp_parameter1 'Banurekha'
+
+--2. 
+create or alter proc GetDeptName(@eid int)
+as
+begin
+ select empname,deptname from tblemployees join tblDepartment
+ on tblemployees.DeptNo=tblDepartment.DeptNo and tblemployees.Empid=@eid
+end
+
+getdeptname 110
+
+
+--3.
+create or alter proc sp_updatesalary(@eid int, @sal float)
+as
+begin
+ declare @revisedsalary float
+ declare @ename varchar(30)
+ select @ename=empname from tblemployees where empid=@eid
+ if(@sal <=6300)
+  begin
+   set @revisedsalary = @sal+100
+   print 'Salary has been revised for ' + @ename + '  from :' + cast(@sal as varchar(10)) + 
+   ' to ' + cast(@revisedsalary as varchar(10))
+   end
+end
+
+sp_updatesalary 103,6100
+
+
+--procedures with output parameters
+create or alter proc sp_Taxcalculator @eid int, @annualsal float output
+as
+begin
+declare @temp float
+select @temp=(salary*12) from tblemployees where empid=@eid
+  if(@temp >75000)
+    begin
+	  set @annualsal= @temp
+	end
+ else
+   begin
+    print 'No Tax as salary is less than 78000'
+   end
+end
+
+--to execute the above proc
+
+declare @salary float
+declare @taxamt float
+exec sp_Taxcalculator 101,@salary output
+set @taxamt=@salary*10/100
+print 'Tax Amount to be paid is ' + cast(@taxamt as varchar(8))
+
+--2. 
+create or alter proc getsalary(@ename varchar(30), @esal float output)
+as
+begin
+ select @esal=sal from emp where ename=@ename
+ end
+
+ select * from tblemployees
+ --changed order of calling the proc with output parameter
+ declare @empsalary float
+ execute getsalary  @esal=@empsalary output, @ename='Smith'  -- named parameters
+ print 'Employee salary is : ' + cast(@empsalary as varchar(7))
+
+
+ --ex 2. 
+--create a procedure that takes an employee no, and outputs the manager id and the salary of the employee
+
+--procedures with return type
+--1.
+create or alter proc sp_totalDept
+as
+begin
+return (select count(deptno) from tblDepartment)
+end
+
+declare @totdept int
+exec @totdept= sp_totaldept 
+select @totdept
+
+--2. proc that returns a non integer values
+--results in an error
+
+create proc sp_getLocation 
+as
+begin
+return (select loc from tblDepartment where DeptNo=4)
+end
+
+declare @loc varchar(20)
+exec @loc=sp_getLocation
+select @loc
+
+-- now let us modify the above proc
+create proc sp_Deptno (@loc varchar(20)) 
+as
+begin
+return (select deptno from tblDepartment where loc=@loc)
+end
+
+
+declare @dno int
+exec @dno = sp_Deptno 'navi mumbai'
+select @dno
+
+--ex 3.
+-- create a procedure that takes deptno as input and 
+-- ouputs the average salary of that department, and also
+-- returns the count of employees in that department

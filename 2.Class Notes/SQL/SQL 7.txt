@@ -1,0 +1,336 @@
+use infinitedb
+use InfiniteDB
+--Instead of Triggers
+drop trigger trg_insteadof_insert
+create or alter trigger trg_insteadof_insert
+on tbldepartment
+instead of insert,update,delete
+as
+begin
+  select 'Permission denied--contact admin'
+end
+
+select * from tbldepartment
+insert into tbldepartment values(25,'aaa',null,'bb')
+update tbldepartment set budget=10000 where deptno=21
+
+--views :
+--1.
+create view vwmyview1
+as
+select empid,empname,gender,deptno from tblemployees
+
+select * from vwmyview1 where deptno=4
+
+sp_helptext vwmyview1
+
+insert into vwmyview1(empid,empname,gender,deptno) values(500,'Shivraj','Male',3)
+ -- the above insert fails as we are not supplying values for all constrained columns
+ --viz salary and phoneneo
+
+ --view 2
+ 
+ select * from dummy1
+
+ create view vwdummy
+ as select dummyid,dummyname from dummy1
+
+ insert into vwdummy values(100,'zz')
+ update vwdummy set dummyname='XX' where dummyid=100
+ delete from vwdummy where dummyid=100
+
+ --the above crud operations works on the view because it is having columns without constraints
+
+ --3. view from 2 tables
+ drop view vwempdept
+create view vwempdept
+as
+select empid,Empname,gender, salary,phoneno,tbldepartment.Deptname 
+from tblemployees join tbldepartment
+on tblemployees.deptno = tbldepartment.deptno
+
+select * from vwempdept
+
+--now let us insert one row into the view
+insert into vwempdept values(500,'Shivraj','Male',6800,012030,'HR')-- does not insert
+
+/*Msg 4405, Level 16, State 1, Line 54
+View or function 'vwempdept' is not updatable because the modification affects 
+multiple base tables.*/
+
+select * from tblDepartment
+select * from tblemployees
+--in order to be able to insert into the above view, we can make use of instead of triggers
+--applied on the view vwempdept
+
+alter table tbldepartment
+drop constraint [con_uniq_loc]
+
+create or alter trigger trig_onView
+on vwempdept
+instead of insert
+as
+begin
+ declare @departmentid int
+ --first let us check if the given department in the insert clause is valid('HR')
+ set @departmentid= (select deptno from tbldepartment d, inserted 
+ where inserted.Deptname=d.deptname)
+ select @departmentid
+
+ --let us check if the data in @departmentid is null or valid
+ if(@departmentid is null)
+  begin
+   raiserror('Invalid Department Name..Statement Terminated',16,1)
+  return
+  end
+
+  --if @depaetmentid has valid value
+  insert into tblemployees(Empid,Empname,Gender,Salary,deptno,phoneno)
+  select empid,empname,gender,salary,@departmentid,phoneno from inserted
+  end
+
+  insert into vwempdept values(500,'Shivraj','Male',6800,012030,'HR')
+
+  select * from tblemployees
+
+
+ --DDL Triggers
+ --Database Scoped 
+ create database DummyDB
+
+ use dummydb
+
+ drop trigger trg_restrict_create_table
+ create or alter trigger trg_restrict_create_table
+ on database
+ for create_table
+ as
+ begin
+  print 'Access Denied'
+  rollback transaction
+  end
+
+  drop trigger trg_allow_create_table
+  create or alter trigger trg_allow_create_table
+ on database
+ for create_table
+ as
+ begin
+  print 'Table created successfully'
+commit transaction
+  end
+  create table newtable1(id int, names varchar(20))
+
+  --server scoped
+  create trigger trg_restrict_all
+  on all server
+  for create_table,alter_table,drop_table
+  as
+   begin
+     print 'you cannot create objects in any database of this server'
+	 rollback transaction
+	 end
+
+	 --to drop a database level trigger
+	 drop trigger if exists trg_restrict_create_table on database
+	  drop trigger if exists trg_allow_create_table on database
+
+	 --to drop server scoped triggers
+	 drop trigger if exists trg_restrict_all on all server
+
+--Cursors
+--1. 
+select * from products
+
+--declare variables to store the row by row values from a cursor
+declare @pname varchar(25),@price int,@qty int
+--declare a cursor
+declare prd_cursor cursor
+for select productname,price,quantityavailable from products
+
+--open the cursor
+open prd_cursor
+--read the data
+fetch next from prd_cursor into @pname,@price,@qty
+
+--iterate the cursor set
+while @@FETCH_STATUS = 0
+ begin
+  print 'The Product : '+ @pname +  ' costs : ' + cast(@price as varchar(6)) +
+  ' and the quantity available is : '+ cast(@qty as varchar(4))
+
+  --start fetching the balance rows
+  fetch next from prd_cursor into @pname,@price,@qty
+end
+
+--close the cursor
+close prd_cursor
+--deallocate cursor
+deallocate prd_cursor
+
+--2.
+declare @sal float, @ename varchar(30)
+declare empcursor cursor
+for select Empname,Salary from tblemployees
+open empcursor
+fetch next from empcursor into @ename,@sal
+
+while @@FETCH_STATUS =0
+ begin
+  if(@sal >6700)
+     begin
+	   print @ename  + ' Earns ' + cast(@sal as varchar(10))
+	 end
+   else
+     begin
+	   print @ename + ' needs an increment'
+	 end
+	 fetch next from empcursor into @ename,@sal
+	end
+
+close empcursor
+deallocate empcursor
+	  
+--3.static cursor
+declare @staticsal float, @staticname varchar(25)
+
+declare empcursor_static cursor static
+for select empname,salary from tblemployees
+open empcursor_static
+fetch relative 5 from empcursor_static into @staticname, @staticsal
+while @@FETCH_STATUS = 0
+ begin
+   if(@staticsal >6700)
+     begin
+	   print @staticname  + ' Earns ' + cast(@staticsal as varchar(10))
+	 end
+   else
+     begin
+	   print @staticname + ' needs an increment'
+	 end
+  fetch prior from empcursor_static into @staticname, @staticsal
+end
+
+close empcursor_static
+deallocate empcursor_static
+
+
+--eg 4 dynamic cursor
+declare @empname varchar(25),@empsal float
+
+declare emp_dynamic cursor dynamic
+for select empname,salary from tblemployees
+
+open emp_dynamic
+fetch next from emp_dynamic into @empname,@empsal
+
+while @@FETCH_STATUS = 0
+ begin
+  if(@empsal <6700)
+    begin
+	 print cast(@empsal as varchar(10))
+	 update tblemployees
+	 set salary = salary + 100 where current of emp_dynamic
+	 select @empsal= salary from tblemployees where empname =@empname
+
+	 print @empname + ' s salary has been updated to :' + cast(@empsal as varchar(10))
+    end
+	else
+	  begin
+	   print @empname + ' ' + 'is earning good'
+	  end
+	fetch next from emp_dynamic into @empname,@empsal
+end
+close emp_dynamic
+deallocate emp_dynamic
+
+--file groups
+sp_help tblemployees
+
+--example
+
+create database Healthcare on primary
+(
+--primary group
+Name='Healthcare',
+filename ='C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Healthcare1.mdf',
+size=5mb,
+maxsize=unlimited,
+filegrowth=1024kb
+),
+--secondary filegroup
+--first file in secondary group
+filegroup healthgrp1
+(
+Name='HealthCarefile1',
+filename='C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\HealthCarefile1.ndf',
+size=1mb,
+maxsize=unlimited,
+filegrowth=1024kb),
+--like wise we can create many secondary groups
+--for log file
+filegroup Healthloggrp
+(
+Name='HealthLogFile',
+filename='C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Healthlogfile1.ldf',
+size=5mb,
+maxsize=unlimited,
+filegrowth=1024kb)
+
+-------------------------------------------------------------
+
+create database Homecare on primary
+(
+--primary group
+Name='Homecare',
+filename ='C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Homecare1.mdf',
+size=5mb,
+maxsize=unlimited,
+filegrowth=1024kb
+),
+--secondary filegroup
+--first file in secondary group
+filegroup homegrp1
+(
+Name='HomeCarefile1',
+filename='C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\HomeCarefile1.ndf',
+size=1mb,
+maxsize=unlimited,
+filegrowth=1024kb),
+--like wise we can create many secondary groups
+--for log file
+filegroup Homeloggrp
+(
+Name='HomeLogFile',
+filename='C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\Homelogfile1.ldf',
+size=5mb,
+maxsize=unlimited,
+filegrowth=1024kb)
+
+
+use Homecare
+create table customers(custid varchar(7),
+Custname varchar(30),
+Custcity varchar(20)) on homegrp1
+
+sp_help customers
+sp_help suppliers
+sp_help justtable
+
+create table suppliers(suppid varchar(7) primary key,
+suppname varchar(30),
+suppcity varchar(20)) on homegrp1
+
+create table justtable(id int, names varchar(20))
+
+--query the database file to understand the granularity
+
+select DB_NAME() as [DatabaseName],Name,FILE_ID,physical_name,
+(size * 8.0/1024)as Size,
+((size * 8.0/1024)-(FILEPROPERTY(name,'SpaceUsed')*8.0/1024)) as FreeSpace
+from sys.database_files
+
+ --or type as below
+dbcc showfilestats
+--Note : if we have 40000 rows in a table , then the resultant size will be
+--(40000 * 8.0/1024) = 312 mb free space

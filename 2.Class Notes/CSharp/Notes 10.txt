@@ -1,0 +1,66 @@
+Delegates : are like function pointers of C,C++.
+            A delegate is a reference type object that holds the reference to a method/function
+            the delegate reference can be changed at runtime (dynamic)
+
+Steps for Delegate usage :
+  1. declare a delegate with signature
+  2. Create objects of the delegate
+  3. Assign any function that matches the signature of the delegate
+  4. Call the delegate with arguments if any
+
+Multicast Delegates: an object of the delegate is made to point to many methods that match the signature
+                    - If we do multicasting to many methods with return values, then the delegate object would return only the value of the last method
+
+we can also pass the Delegate object as an argument/parameter to a function 
+
+We can have Generic delegates thru which we achieve polymorphism
+
+Anonymous Delegates : are delegates that point to functions without name
+
+Types of Delegates: 
+
+1. Predicate Delegates : is a delegate type that takes one input and returns a Boolean type. Can be used with anonymous methods as well lambda expressions
+
+2. Action Delegates : are delegate type that may not take any input, nor return any
+
+3. Functions Delegates : is a built in delegate type.
+                         has to return a value
+                         can take 0 to 16 inputs
+                         does not allow 'ref' and 'out' parameters
+
+
+Co Variance : allowing an object of more derived type to be assigned to a lesser derived type
+
+Base Class : some common information
+
+derived classes : will be more derived ( base class info + derived class info)
+
+eg : Shape as a Base Class and Rectangle as a derived class
+
+Shape shape = new Rectangle(); 
+
+Contravariance : it is applied more to the parameters of a function  than object or variables 
+
+Events : are hardware related interactions with the application, that responds to them.
+-----------
+User->Events->Delegates->Methods
+
+-They work on Publisher-Subscriber Models
+-Events enable a class or object to notify other classes when something occurs/happens
+
+- the class that raises the event is publisher
+- the class that handles the event is subscriber
+-  publisher determines when an event is raised
+-  events can have multiple subscribers
+-  subscribers can handle events from multiple publishers
+
+Points to Note :
+1. The events are declared, raised in a class and associated with the event handlers using delegates that can be either in the same class or in other classes
+
+2. The class containing the events is used to publish the event.
+3. Publisher is an object that contains the definition of the event and the delegate. The event-delegate association is also defined in this object
+4. Publisher class object invokes the event and notifies to other objects
+
+
+
+

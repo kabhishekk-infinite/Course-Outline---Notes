@@ -1,0 +1,94 @@
+Jump statements in C# alter the normal flow of control within a program. They allow you to transfer control to another part of the program. The primary jump statements in C# are `break`, `continue`, `return`, `goto`, and `throw`.
+
+### `break` Statement
+
+The `break` statement is primarily used inside loops (`for`, `while`, `do-while`) and `switch` statements to immediately terminate the loop or switch statement and transfer control to the next statement after the loop or switch.
+
+**Example with `for` loop:**
+```csharp
+for (int i = 0; i < 10; i++)
+{
+    if (i == 5)
+    {
+        break; // Exit the loop when i reaches 5
+    }
+    Console.WriteLine(i);
+}
+```
+
+### `continue` Statement
+
+The `continue` statement is used to skip the rest of the loop iteration and continue with the next iteration of the loop.
+
+**Example with `for` loop:**
+```csharp
+for (int i = 0; i < 10; i++)
+{
+    if (i % 2 == 0)
+    {
+        continue; // Skip even numbers
+    }
+    Console.WriteLine(i);
+}
+```
+
+### `return` Statement
+
+The `return` statement exits from the current method and optionally returns a value to the calling method.
+
+**Example:**
+```csharp
+int Add(int a, int b)
+{
+    return a + b; // Return the sum of a and b
+}
+```
+
+### `goto` Statement
+
+The `goto` statement transfers control to the labeled statement. However, `goto` should be used sparingly and with caution as it can make code harder to understand and maintain.
+
+**Example:**
+```csharp
+int i = 0;
+startLoop:
+
+while (i < 10)
+{
+    Console.WriteLine(i);
+    i++;
+    if (i == 5)
+    {
+        goto endLoop;
+    }
+}
+endLoop:
+Console.WriteLine("End of loop.");
+```
+
+### `throw` Statement
+
+The `throw` statement is used to throw an exception explicitly. It is used in exception handling to indicate that an error or exceptional condition has occurred.
+
+**Example:**
+```csharp
+public void ValidateAge(int age)
+{
+    if (age < 0)
+    {
+        throw new ArgumentException("Age cannot be negative.");
+    }
+    // Further logic here if age is valid
+}
+```
+
+### Notes on Jump Statements
+
+- **`break` and `continue`** are used within loops to control the flow of iterations.
+- **`return`** exits from the current method and can provide a value back to the caller.
+- **`goto`** should generally be avoided due to its potential to make code harder to read and maintain.
+- **`throw`** is used to raise exceptions and handle error conditions in C#.
+
+### Conclusion
+
+Jump statements provide flexibility in controlling the flow of execution in C# programs. While they can make your code more dynamic and efficient, they should be used judiciously to maintain code clarity and readability. Understanding when and how to use each jump statement appropriately is crucial for writing robust and maintainable C# code.

@@ -1,0 +1,155 @@
+Object-Oriented Programming (OOP) revolves around four fundamental principles, often referred to as the pillars of OOP. These principles are crucial for understanding how OOP organizes and structures software systems. Let's discuss each of these pillars in detail:
+
+### 1. Encapsulation
+
+**Definition:** Encapsulation is the bundling of data (attributes) and methods (functions) that operate on the data into a single unit (class). It hides the internal state of an object from direct external access and ensures that only the methods defined within the class can access and manipulate the data.
+
+**Key Aspects:**
+- **Data Hiding:** The internal state (attributes) of an object is hidden from external code and can only be accessed through public methods (getters and setters).
+- **Access Control:** Provides control over which parts of the program can access the data and in what manner, promoting security and preventing unintended modification.
+- **Information Hiding:** Allows developers to change the internal workings of a class without affecting other parts of the program that use the class, enhancing maintainability and reducing coupling.
+
+**Example:**
+```java
+public class Circle {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        if (radius > 0) {
+            this.radius = radius;
+        }
+    }
+
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+In the above example, `radius` is encapsulated as a private member of the `Circle` class. External code cannot directly modify `radius` but can interact with it through the `getRadius()` and `setRadius()` methods.
+
+### 2. Abstraction
+
+**Definition:** Abstraction refers to the process of hiding complex implementation details while exposing only the essential features of an object. It focuses on what an object does rather than how it does it, allowing developers to model real-world entities as classes with specific behaviors and attributes.
+
+**Key Aspects:**
+- **Modeling Real-World Entities:** Allows developers to create classes that represent real-world objects and entities, focusing on their essential properties and behaviors.
+- **Reduced Complexity:** Simplifies the programming model by hiding unnecessary details and presenting a clear and concise interface for interacting with objects.
+- **Flexibility and Extensibility:** Supports hierarchy and specialization through inheritance, enabling the creation of specialized classes that extend the functionality of base classes.
+
+**Example:**
+```java
+// Abstract class
+abstract class Shape {
+    // Abstract method (no implementation)
+    public abstract double area();
+}
+
+// Concrete class inheriting from Shape
+class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+In this example, `Shape` is an abstract class that defines an abstract method `area()`. Concrete subclasses like `Circle` provide specific implementations of the `area()` method, allowing them to calculate their area based on their specific attributes (e.g., radius).
+
+### 3. Inheritance
+
+**Definition:** Inheritance is a mechanism where a new class (subclass/derived class) is based on an existing class (superclass/base class). The subclass inherits attributes and behaviors (methods) from the superclass, allowing for code reuse, specialization, and hierarchy.
+
+**Key Aspects:**
+- **Code Reuse:** Allows subclasses to inherit attributes and methods from their superclass, reducing redundancy and promoting modularity.
+- **Hierarchy and Specialization:** Supports creating specialized classes that extend the functionality of base classes while maintaining common characteristics.
+- **Method Overriding:** Enables subclasses to provide their own implementation of methods defined in the superclass, facilitating polymorphic behavior.
+
+**Example:**
+```java
+// Base class
+class Vehicle {
+    protected String brand;
+
+    public void drive() {
+        System.out.println("Driving a vehicle");
+    }
+}
+
+// Derived class (subclass)
+class Car extends Vehicle {
+    private int numOfSeats;
+
+    public void setNumOfSeats(int numOfSeats) {
+        this.numOfSeats = numOfSeats;
+    }
+
+    @Override
+    public void drive() {
+        System.out.println("Driving a car");
+    }
+}
+```
+
+In this example, `Car` inherits the `brand` attribute and `drive()` method from the `Vehicle` class. It adds its own attribute (`numOfSeats`) and overrides the `drive()` method to provide a specialized implementation.
+
+### 4. Polymorphism
+
+**Definition:** Polymorphism allows objects of different classes to be treated as objects of a common superclass or interface. It enables methods to be invoked on objects without knowing their specific type at compile time, promoting flexibility and extensibility.
+
+**Key Aspects:**
+- **Method Overloading:** Allows a class to have multiple methods with the same name but different parameters.
+- **Method Overriding:** Enables subclasses to provide a specific implementation of a method defined in a superclass.
+- **Dynamic Binding:** Determines which method implementation to execute at runtime based on the actual type of the object.
+
+**Example:**
+```java
+// Base class
+class Animal {
+    public void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+// Derived classes
+class Dog extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Cat meows");
+    }
+}
+
+// Polymorphic method invocation
+Animal dog = new Dog();
+Animal cat = new Cat();
+
+dog.makeSound(); // Output: Dog barks
+cat.makeSound(); // Output: Cat meows
+```
+
+In this example, both `Dog` and `Cat` classes inherit the `makeSound()` method from the `Animal` class but provide their own specific implementations. The `Animal` reference (`dog` and `cat`) can be polymorphically assigned to `Dog` and `Cat` objects, allowing dynamic method invocation based on the actual object type at runtime.
+
+### Summary
+
+The four pillars of Object-Oriented Programming (Encapsulation, Abstraction, Inheritance, and Polymorphism) collectively provide a powerful framework for designing modular, reusable, and maintainable software systems. Each pillar contributes unique benefits and capabilities that help developers model complex systems, manage complexity, and build robust and flexible applications. Understanding and effectively applying these principles is fundamental to mastering object-oriented design and programming.
